@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #000;
+        }
+
+        /* NAVIGATION */
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 25px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #000;
+            font-size: 15px;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            max-width: 1200px;
+            margin: 60px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .hero-text {
+            width: 50%;
+        }
+
+        .hero-text h3 {
+            font-size: 22px;
+            font-weight: 500;
+        }
+
+        .hero-text h1 {
+            font-size: 50px;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .hero-text h2 {
+            font-size: 22px;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .hero-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: 1px solid #000;
+            background: none;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .hero-image {
+            width: 45%;
+            height: 300px;
+            background: #f1f1f1;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            max-width: 1200px;
+            margin: 100px auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .about-left {
+            width: 50%;
+        }
+
+        .about-img-box {
+            width: 100%;
+            height: 380px;
+            background: #f5f5f5;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #888;
+            font-size: 20px;
+        }
+
+        .social-box {
+            width: 80%;
+            margin: 20px auto 0;
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            border: 1px solid #eee;
+        }
+
+        .social-box i {
+            font-size: 20px;
+            color: #555;
+        }
+
+        .about-right {
+            width: 50%;
+        }
+
+        .about-right h1 {
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .about-right p {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .about-buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .hero,
+            .about {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text,
+            .hero-image,
+            .about-left,
+            .about-right {
+                width: 100%;
+            }
+
+            .hero-image,
+            .about-img-box {
+                margin-top: 30px;
+            }
+
+            .social-box {
+                width: 100%;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+        <a class="logo">MyPortfolio</a>
+
+        <ul>
+            <li><a>Home</a></li>
+            <li><a>About</a></li>
+            <li><a>Services</a></li>
+            <li><a>Projects</a></li>
+            <li><a>Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-text">
+            <h3>Hello</h3>
+            <h1>I Am Prakash</h1>
+            <h2>Web Developer</h2>
+
+            <div class="hero-buttons">
+                <button class="btn">Hire Me</button>
+                <button class="btn">Get CV</button>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            Image Here
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about">
+
+        <div class="about-left">
+            <div class="about-img-box">Your Photo</div>
+
+            <div class="social-box">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-linkedin"></i>
+                <i class="fa-brands fa-behance"></i>
+            </div>
+        </div>
+
+        <div class="about-right">
+            <h1>I am Professional User Experience Designer</h1>
+            <p>
+                I design and develop services for customers specializing in
+                creating stylish, modern websites, web services and online stores.
+                My passion is to design digital user experiences.
+            </p>
+            <p>
+                I design and develop services for customers specializing in
+                creating stylish, modern websites, web services.
+            </p>
+
+            <div class="about-buttons">
+                <button class="btn">My Projects</button>
+                <button class="btn">Download CV</button>
+            </div>
+        </div>
+
+    </section>
+
+</body>
+</html>
