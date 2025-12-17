@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+
+
+
+/* ===== DESIGN SYSTEM ===== */
+:root {
+  --bg: 255 255 255;
+  --text: 17 24 39;
+  --muted: 107 114 128;
+  --border: 229 231 235;
+  --surface: 249 250 251;
+  --card: 255 255 255;
+
+  /* Primary brand color */
+  --accent: 79 70 229;
+  --accent-foreground: 255 255 255;
+}
+
+.dark {
+  --bg: 17 24 39;
+  --text: 243 244 246;
+  --muted: 156 163 175;
+  --border: 55 65 81;
+  --surface: 31 41 55;
+  --card: 31 41 55;
+
+  /* Slightly brighter but still readable */
+  --accent: 99 102 241;
+  --accent-foreground: 17 24 39;
+}
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
