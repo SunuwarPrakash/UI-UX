@@ -286,7 +286,7 @@ export default function App() {
             href="mailto:praksunuwar@gmail.com"
             className="text-[rgb(var(--accent))] hover:underline"
           >
-            your@email.com
+            for business inquiries
           </a>
         </p>
 
