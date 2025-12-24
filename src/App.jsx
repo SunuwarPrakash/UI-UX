@@ -2,6 +2,37 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import avatar from "./assets/undraw_developer-avatar_f6ac.png";
 
+import dashboardImg from "./assets/dashboard.jpg";
+import portfolioImg from "./assets/ecommerce.jpg";
+import ecommerceImg from "./assets/ecommerce.jpg";
+
+
+
+export const projects = [
+  {
+    title: "UI Dashboard",
+    description: "Modern dashboard UI with charts and dark mode.",
+    image: dashboardImg,
+    tech: ["React", "Tailwind", "Framer Motion"],
+    link: "#",
+  },
+  {
+    title: "Portfolio Website",
+    description: "Responsive personal portfolio with animations.",
+    image: portfolioImg,
+    tech: ["React", "Vite", "CSS"],
+    link: "#",
+  },
+  {
+    title: "E-commerce UI",
+    description: "Clean product layout and cart interaction.",
+    image: ecommerceImg,
+    tech: ["React", "Tailwind"],
+    link: "#",
+  },
+];
+
+
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
@@ -179,43 +210,162 @@ export default function App() {
         </section>
 
         {/* PROJECTS */}
-        <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 py-20">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-12">
-            Projects
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((p) => (
-              <div
-                key={p}
-                className="bg-[rgb(var(--card))] p-6 rounded-xl shadow hover:shadow-lg transition"
+        <section
+  id="projects"
+  className="max-w-7xl mx-auto px-4 sm:px-6 py-24"
+>
+  <h2 className="text-3xl font-bold mb-12">Projects</h2>
+
+  <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+    {projects.map((project) => (
+      <article
+        key={project.title}
+        className="group rounded-xl border border-[rgb(var(--border))] overflow-hidden bg-[rgb(var(--card))] hover:shadow-lg transition"
+      >
+        {/* Image */}
+        <div className="relative h-48 overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            loading="lazy"
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          <h3 className="text-lg font-semibold">
+            {project.title}
+          </h3>
+
+          <p className="mt-2 text-sm text-[rgb(var(--muted))]">
+            {project.description}
+          </p>
+
+          {/* Tech stack */}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {project.tech.map((t) => (
+              <span
+                key={t}
+                className="text-xs px-2 py-1 rounded-md bg-[rgb(var(--surface))]"
               >
-                <div className="h-40 bg-gray-200 dark:bg-gray-700 rounded-lg mb-4" />
-                <h3 className="font-semibold text-lg">Project {p}</h3>
-                <p className="text-[rgb(var(--muted))] text-sm mt-2">
-                  Clean, responsive UI project built with modern frontend
-                  practices.
-                </p>
-              </div>
+                {t}
+              </span>
             ))}
           </div>
-        </section>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
 
         {/* CONTACT */}
-        <section
-          id="contact"
-          className="max-w-7xl mx-auto px-4 sm:px-6 py-20 bg-[rgb(var(--surface))] rounded-lg my-10 text-center"
-        >
-          <h2 className="text-2xl sm:text-3xl font-bold mb-4">Get In Touch</h2>
-          <p className="text-[rgb(var(--muted))] mb-6">
-            Open to freelance, remote, or full-time opportunities.
-          </p>
+        {/* CONTACT */}
+<section
+  id="contact"
+  className="max-w-7xl mx-auto px-4 sm:px-6 py-24"
+>
+  <div className="grid md:grid-cols-2 gap-16 items-start">
+    
+    {/* LEFT SIDE — TEXT */}
+    <div>
+      <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+        Let’s Work Together
+      </h2>
+
+      <p className="text-[rgb(var(--muted))] max-w-md mb-6">
+        Have a project in mind, a startup idea, or need help designing a
+        product? Fill out the form and I’ll get back to you within 24 hours.
+      </p>
+
+      <div className="space-y-4 text-sm">
+        <p>
+          📧 <span className="font-medium">Email:</span>{" "}
           <a
-            href="mailto:your@email.com"
-            className="inline-block px-8 py-3 rounded-lg bg-[rgb(var(--accent))] text-[rgb(var(--bg))] font-medium hover:opacity-90 transition"
+            href="mailto:praksunuwar@gmail.com"
+            className="text-[rgb(var(--accent))] hover:underline"
           >
-            Email Me
+            your@email.com
           </a>
-        </section>
+        </p>
+
+        <p>
+          💼 <span className="font-medium">LinkedIn:</span>{" "}
+          <a
+            href="https://www.linkedin.com/in/prakash-sunuwar-020556234/"
+            target="_blank"
+            className="text-[rgb(var(--accent))] hover:underline"
+          >
+            View Profile
+          </a>
+        </p>
+
+        <p className="text-[rgb(var(--muted))]">
+          Available for freelance, remote, and contract work.
+        </p>
+      </div>
+    </div>
+
+    {/* RIGHT SIDE — FORM */}
+    <form
+      action="https://formspree.io/f/xaqwzlla" // 👈 REPLACE THIS
+      method="POST"
+      className="bg-[rgb(var(--card))] p-8 rounded-2xl shadow-sm space-y-6"
+    >
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          required
+          placeholder="Your full name"
+          className="w-full px-4 py-3 rounded-lg border border-[rgb(var(--border))] bg-transparent focus:outline-none focus:ring-2 focus:ring-[rgb(var(--accent))]"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="you@email.com"
+          className="w-full px-4 py-3 rounded-lg border border-[rgb(var(--border))] bg-transparent focus:outline-none focus:ring-2 focus:ring-[rgb(var(--accent))]"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Project Details
+        </label>
+        <textarea
+          name="message"
+          rows="5"
+          required
+          placeholder="Tell me about your project, timeline, and goals…"
+          className="w-full px-4 py-3 rounded-lg border border-[rgb(var(--border))] bg-transparent focus:outline-none focus:ring-2 focus:ring-[rgb(var(--accent))]"
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full px-6 py-3 rounded-lg bg-[rgb(var(--accent))] text-[rgb(var(--bg))] font-medium hover:opacity-90 transition"
+      >
+        Send Message
+      </button>
+
+      <p className="text-xs text-[rgb(var(--muted))] text-center">
+        I usually respond within 24 hours.
+      </p>
+    </form>
+  </div>
+</section>
+
 
         {/* FOOTER */}
         <footer className="py-8 text-center text-sm text-[rgb(var(--muted))]">
