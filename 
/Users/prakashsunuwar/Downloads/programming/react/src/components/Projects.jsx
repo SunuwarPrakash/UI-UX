@@ -40,13 +40,13 @@ export default function Projects({ setActiveProject }) {
         viewport={{ once: true, amount: 0.2 }}
         className="text-center mb-16"
       >
-        <motion.h2 
+        <motion.h2
           variants={itemVariants}
           className="text-4xl md:text-5xl font-bold mb-4"
         >
           Featured Projects
         </motion.h2>
-        <motion.p 
+        <motion.p
           variants={itemVariants}
           className="text-lg text-[rgb(var(--muted))] max-w-2xl mx-auto"
         >
@@ -67,12 +67,6 @@ export default function Projects({ setActiveProject }) {
             variants={itemVariants}
             whileHover={{ y: -8, scale: 1.02 }}
             className="group relative rounded-2xl border border-[rgb(var(--border))] overflow-hidden bg-[rgb(var(--card))] hover:shadow-2xl transition-all duration-500"
-            style={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              minHeight: '600px'
-            }}
           >
             {/* Project Image */}
             <div className="relative h-56 overflow-hidden">
@@ -84,14 +78,14 @@ export default function Projects({ setActiveProject }) {
                 transition={{ duration: 0.6 }}
                 loading="lazy"
               />
-              
+
               {/* Overlay */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
               />
-              
+
               {/* Floating Action Button */}
               <motion.button
                 onClick={() => setActiveProject(project)}
@@ -107,45 +101,43 @@ export default function Projects({ setActiveProject }) {
             </div>
 
             {/* Content */}
-            <div className="p-6 flex flex-col h-full">
+            <div className="p-6">
               <div className="flex items-start justify-between mb-3">
                 <h3 className="text-xl font-bold group-hover:text-[rgb(var(--accent))] transition-colors duration-300">
                   {project.title}
                 </h3>
-                <motion.span 
-                  className="text-xs px-2 py-1 rounded-full bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] font-medium flex-shrink-0"
+                <motion.span
+                  className="text-xs px-2 py-1 rounded-full bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] font-medium"
                   whileHover={{ scale: 1.05 }}
                 >
                   {index + 1}
                 </motion.span>
               </div>
 
-              <div className="flex-1 flex flex-col">
-                <p className="text-sm text-[rgb(var(--muted))] leading-relaxed mb-4">
-                  {project.description}
-                </p>
+              <p className="text-sm text-[rgb(var(--muted))] leading-relaxed mb-6">
+                {project.description}
+              </p>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-auto">
-                  {project.technologies?.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 text-xs rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
-                    >
-                      {tech}
-                    </span>
-                  )) || ['Figma', 'UI/UX', 'Design'].map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 text-xs rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+              {/* Technologies */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {project.technologies?.map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-xs rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
+                  >
+                    {tech}
+                  </span>
+                )) || ['Figma', 'UI/UX', 'Design'].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-3 py-1 text-xs rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
+                  >
+                    {tech}
+                  </span>
+                ))}
               </div>
 
-              {/* Actions - Always at bottom */}
+              {/* Actions */}
               <div className="flex gap-3">
                 <motion.button
                   onClick={() => {
@@ -158,7 +150,7 @@ export default function Projects({ setActiveProject }) {
                 >
                   View Case Study
                 </motion.button>
-                
+
                 <motion.button
                   onClick={() => {
                     if (project.figmaEmbed) {
@@ -250,8 +242,8 @@ export default function Projects({ setActiveProject }) {
 
             {/* Modal Content */}
             <div className="p-6 overflow-y-auto max-h-[70vh]">
-              {modalType === 'case-study' ? (
-                // Case Study Content
+              {modalType === 'case-study' && activeModal.title.includes('FoodHub') ? (
+                // FoodHub Case Study Content
                 <div className="space-y-8">
                   <div>
                     <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">FoodHub App Overview</h4>
@@ -360,6 +352,116 @@ export default function Projects({ setActiveProject }) {
                     </div>
                   </div>
                 </div>
+              ) : modalType === 'case-study' && activeModal.title.includes('Furni') ? (
+                // Furni Case Study Content
+                <div className="space-y-8">
+                  <div>
+                    <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">Furni E-commerce Overview</h4>
+                    <p className="text-[rgb(var(--muted))] leading-relaxed">
+                      Furni is a modern interior e-commerce platform designed for browsing and purchasing furniture online. The website features an elegant product catalog, advanced filtering system, seamless shopping experience, and optimized checkout flow specifically designed for furniture retail.
+                    </p>
+                  </div>
+
+                  {/* Process Timeline */}
+                  <div>
+                    <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">Design Process for Furni</h4>
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
+                        <div>
+                          <h5 className="font-semibold text-[rgb(var(--text))]">Furniture Market Research</h5>
+                          <p className="text-[rgb(var(--muted))] text-sm">Analyzed furniture buying patterns, interior design trends, and user behavior in online furniture shopping</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
+                        <div>
+                          <h5 className="font-semibold text-[rgb(var(--text))]">E-commerce Flow Design</h5>
+                          <p className="text-[rgb(var(--muted))] text-sm">Mapped user journeys from product discovery to purchase completion with focus on furniture-specific needs</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
+                        <div>
+                          <h5 className="font-semibold text-[rgb(var(--text))]">Modern UI Design</h5>
+                          <p className="text-[rgb(var(--muted))] text-sm">Created elegant interface with high-quality product imagery, intuitive navigation, and premium furniture presentation</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-4">
+                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">4</div>
+                        <div>
+                          <h5 className="font-semibold text-[rgb(var(--text))]">E-commerce Testing</h5>
+                          <p className="text-[rgb(var(--muted))] text-sm">Tested product browsing, filtering, and checkout flows with target furniture buyers and interior designers</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Challenges & Solutions */}
+                  <div>
+                    <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">Furni Design Challenges & Solutions</h4>
+                    <div className="space-y-4">
+                      <div className="bg-[rgb(var(--surface))] p-4 rounded-xl">
+                        <h5 className="font-semibold text-[rgb(var(--text))] mb-2">Challenge: Product Visualization</h5>
+                        <p className="text-[rgb(var(--muted))] text-sm">Furniture customers need to understand scale, texture, and style from online images before making purchase decisions.</p>
+                      </div>
+                      <div className="bg-[rgb(var(--accent))]/10 p-4 rounded-xl border border-[rgb(var(--accent))]/20">
+                        <h5 className="font-semibold text-[rgb(var(--accent))] mb-2">Solution: Enhanced Product Display</h5>
+                        <p className="text-[rgb(var(--muted))] text-sm">Implemented multiple product angles, zoom functionality, and lifestyle photography to help users visualize furniture in their space.</p>
+                      </div>
+                      <div className="bg-[rgb(var(--surface))] p-4 rounded-xl">
+                        <h5 className="font-semibold text-[rgb(var(--text))] mb-2">Challenge: Complex Filtering</h5>
+                        <p className="text-[rgb(var(--muted))] text-sm">Furniture has many attributes (style, material, color, size, price) that can overwhelm users trying to find specific items.</p>
+                      </div>
+                      <div className="bg-[rgb(var(--accent))]/10 p-4 rounded-xl border border-[rgb(var(--accent))]/20">
+                        <h5 className="font-semibold text-[rgb(var(--accent))] mb-2">Solution: Smart Filtering System</h5>
+                        <p className="text-[rgb(var(--muted))] text-sm">Designed intuitive filtering with visual filters, style categories, and progressive disclosure to simplify product discovery.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Technologies & Skills */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="text-lg font-semibold mb-3 text-[rgb(var(--text))]">Furni Technologies</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {activeModal.technologies?.map((tech) => (
+                          <span
+                            key={tech}
+                            className="px-3 py-1 text-sm rounded-full bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] border border-[rgb(var(--accent))]/20"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold mb-3 text-[rgb(var(--text))]">E-commerce Features</h4>
+                      <ul className="space-y-2 text-[rgb(var(--muted))] text-sm">
+                        <li className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
+                          Advanced Product Catalog
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
+                          Smart Filtering & Search
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
+                          Product Comparison Tools
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
+                          Shopping Cart & Wishlist
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
+                          Secure Checkout Process
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               ) : modalType === 'preview' ? (
                 // Preview Content (Figma Embed)
                 <div className="space-y-6">
@@ -367,7 +469,7 @@ export default function Projects({ setActiveProject }) {
                     <h4 className="text-xl font-semibold mb-2 text-[rgb(var(--text))]">Design Preview</h4>
                     <p className="text-[rgb(var(--muted))] text-sm">Interact with the live Figma design below</p>
                   </div>
-                  
+
                   {activeModal.figmaEmbed ? (
                     <div className="relative">
                       <iframe
@@ -451,7 +553,7 @@ export default function Projects({ setActiveProject }) {
                       View Case Study
                     </motion.button>
                   )}
-                  
+
                   <motion.a
                     href={activeModal.link}
                     target="_blank"
@@ -481,3 +583,4 @@ export default function Projects({ setActiveProject }) {
     </section>
   );
 }
+

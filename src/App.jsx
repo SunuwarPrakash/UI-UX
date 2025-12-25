@@ -11,21 +11,21 @@ import ecommerceImg from "./assets/ecommerce.jpg";
 
 export const projects = [
   {
-    title: "UI Dashboard Design",
-    description: "Comprehensive dashboard UI design with charts, data visualization, and dark mode support. Features modern component library and responsive layout.",
+    title: "FoodHub - Food Delivery App",
+    description: "Complete food ordering and delivery mobile application design with seamless user experience for browsing restaurants, placing orders, and tracking deliveries. Features intuitive navigation, real-time order tracking, and modern UI components optimized for food technology.",
     image: dashboardImg,
     figmaEmbed: "https://embed.figma.com/proto/UJXukoCvPOeNN52YHpND6P/UI-UX?node-id=219-1571&embed-host=share",
     link: "https://www.figma.com/proto/UJXukoCvPOeNN52YHpND6P/UI-UX?node-id=219-1571&t=HJh2H7oY51ElM4eI-1",
-    technologies: ["Figma", "UI/UX", "Design System"],
-    category: "Dashboard"
+    technologies: ["Figma", "Mobile UI", "Food Tech"],
+    category: "Food Delivery"
   },
   {
-    title: "Mobile App UI",
-    description: "Modern mobile application interface design focusing on user experience and visual hierarchy. Includes onboarding flow and core features.",
+    title: "Furni - Modern Interior E-commerce",
+    description: "Complete interior design e-commerce platform featuring modern furniture collections, seamless shopping experience, and intuitive product discovery. Includes advanced filtering, wishlist functionality, and optimized checkout process for home decor enthusiasts.",
     image: ecommerceImg,
-    link: "#",
-    technologies: ["Figma", "Mobile UI", "User Research"],
-    category: "Mobile App"
+    link: "https://www.figma.com/proto/UJXukoCvPOeNN52YHpND6P/Furni-Interior?node-id=201-2347&t=wKh5Yc1qZ6gZ9mKc-1",
+    technologies: ["Figma", "E-commerce", "Interior Design"],
+    category: "E-commerce"
   },
   {
     title: "E-commerce Platform",
