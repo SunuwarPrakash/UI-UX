@@ -25,12 +25,12 @@ export default function About() {
   };
 
   const skills = [
-    { name: "Figma & Adobe XD", level: 95 },
-    { name: "User Research", level: 90 },
-    { name: "Wireframing", level: 95 },
-    { name: "Prototyping", level: 90 },
-    { name: "Design Systems", level: 88 },
-    { name: "Usability Testing", level: 85 }
+    { name: "Figma & Design Tools", level: 80 },
+    { name: "User Research Methods", level: 75 },
+    { name: "Wireframing & Prototyping", level: 85 },
+    { name: "UI Design & Visual Design", level: 78 },
+    { name: "User Testing & Analysis", level: 70 },
+    { name: "Design Thinking Process", level: 82 }
   ];
 
   return (
@@ -60,10 +60,10 @@ export default function About() {
               variants={itemVariants}
               className="text-lg text-[rgb(var(--muted))] max-w-3xl mx-auto leading-relaxed"
             >
-              I'm a passionate UI/UX designer who specializes in creating beautiful, 
-              functional, and user-centered digital experiences. With a keen eye for 
-              design and deep understanding of user psychology, I help startups and 
-              businesses build products that users love and businesses need.
+              I'm a passionate UI/UX designer who recently completed my design certification 
+              and is excited to start creating meaningful digital experiences. With fresh 
+              knowledge in user-centered design and a strong foundation in design thinking, 
+              I'm ready to help bring innovative ideas to life.
             </motion.p>
           </motion.div>
 
@@ -73,20 +73,22 @@ export default function About() {
               <h3 className="text-3xl font-bold mb-8">My Journey</h3>
               <div className="space-y-6 text-[rgb(var(--muted))] leading-relaxed text-lg">
                 <p>
-                  What started as curiosity about how websites work has evolved into 
-                  a passion for creating exceptional user experiences. I believe that 
-                  great design is invisible—it just works seamlessly.
+                  My journey into UI/UX design began with a curiosity about how user 
+                  experiences are created. Through my recent certification program, 
+                  I've gained comprehensive knowledge in design thinking, user research, 
+                  and the complete design process.
                 </p>
                 <p>
-                  Over the past years, I've had the privilege of working on diverse 
-                  projects, from simple landing pages to complex web applications. 
-                  Each project has taught me something new and reinforced my belief 
-                  that attention to detail makes all the difference.
+                  During my studies, I've completed several design projects that have 
+                  strengthened my skills in wireframing, prototyping, and user testing. 
+                  Each project reinforced my belief that great design starts with 
+                  understanding user needs and solving real problems.
                 </p>
                 <p>
-                  When I'm not coding, you'll find me exploring new design trends, 
-                  contributing to open-source projects, or sharing knowledge with 
-                  the developer community.
+                  Now I'm eager to apply my fresh knowledge and enthusiasm to real-world 
+                  projects. I'm actively learning about industry trends, studying successful 
+                  designs, and preparing to collaborate with teams to create meaningful 
+                  digital experiences.
                 </p>
               </div>
 
@@ -127,41 +129,28 @@ export default function About() {
                 </div>
               </motion.div>
 
-              {/* Skills Bars */}
+              {/* Skills Section */}
               <motion.div 
                 variants={itemVariants}
                 className="mt-16"
               >
-                <h3 className="text-3xl font-bold text-center mb-8">Core Design Skills</h3>
-                <div className="max-w-4xl mx-auto space-y-6">
-                  {skills.map((skill, index) => (
-                    <motion.div
-                      key={index}
-                      className="relative"
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-semibold text-[rgb(var(--text))]">
-                          {skill.name}
-                        </span>
-                        <span className="text-sm text-[rgb(var(--muted))]">
-                          {skill.level}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-[rgb(var(--surface))] rounded-full h-3 border border-[rgb(var(--border))]">
-                        <motion.div
-                          className="h-full bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 rounded-full relative overflow-hidden"
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${skill.level}%` }}
-                          transition={{ delay: index * 0.1 + 0.5, duration: 1 }}
-                        >
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-                        </motion.div>
-                      </div>
-                    </motion.div>
-                  ))}
+                <h3 className="text-3xl font-bold text-center mb-8">My Design Skills</h3>
+                <div className="max-w-4xl mx-auto">
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {skills.map((skill, index) => (
+                      <motion.div
+                        key={index}
+                        className="flex items-center gap-4 p-4 bg-[rgb(var(--card))] rounded-2xl border border-[rgb(var(--border))] hover:shadow-lg transition-all duration-300"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        whileHover={{ y: -2 }}
+                      >
+                        <div className="w-3 h-3 bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 rounded-full flex-shrink-0" />
+                        <span className="text-[rgb(var(--text))] font-medium">{skill.name}</span>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </motion.div>
             </motion.div>

@@ -11,23 +11,30 @@ import ecommerceImg from "./assets/ecommerce.jpg";
 
 export const projects = [
   {
-    title: "UI Dashboard",
-    description: "Modern dashboard UI with charts and dark mode.",
+    title: "UI Dashboard Design",
+    description: "Comprehensive dashboard UI design with charts, data visualization, and dark mode support. Features modern component library and responsive layout.",
     image: dashboardImg,
-    link: "https://www.figma.com/proto/UJXukoCvPOeNN52YHpND6P/UI-UX",
+    figmaEmbed: "https://embed.figma.com/proto/UJXukoCvPOeNN52YHpND6P/UI-UX?node-id=219-1571&embed-host=share",
+    link: "https://www.figma.com/proto/UJXukoCvPOeNN52YHpND6P/UI-UX?node-id=219-1571&t=HJh2H7oY51ElM4eI-1",
+    technologies: ["Figma", "UI/UX", "Design System"],
+    category: "Dashboard"
   },
   {
-    title: "Portfolio Website",
-    description: "Responsive personal portfolio with animations.",
-    image: portfolioImg,
-    link: "#",
-  },
-  {
-    title: "E-commerce UI",
-    description: "Clean product layout and cart interaction.",
+    title: "Mobile App UI",
+    description: "Modern mobile application interface design focusing on user experience and visual hierarchy. Includes onboarding flow and core features.",
     image: ecommerceImg,
     link: "#",
+    technologies: ["Figma", "Mobile UI", "User Research"],
+    category: "Mobile App"
   },
+  {
+    title: "E-commerce Platform",
+    description: "Complete e-commerce platform design with product catalog, shopping cart, and checkout process. Optimized for conversion and user satisfaction.",
+    image: portfolioImg,
+    link: "#",
+    technologies: ["Figma", "E-commerce", "Conversion Design"],
+    category: "E-commerce"
+  }
 ];
 
 export default function App() {

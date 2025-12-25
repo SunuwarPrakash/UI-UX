@@ -76,7 +76,7 @@ export default function Hero() {
           <motion.p 
             className="text-sm text-[rgb(var(--muted))] font-medium tracking-wider uppercase"
           >
-            UI/UX Designer & Consultant
+            UI/UX Designer (Recent Graduate)
           </motion.p>
         </motion.div>
 
@@ -103,8 +103,8 @@ export default function Hero() {
           variants={itemVariants}
           className="text-xl text-[rgb(var(--muted))] max-w-lg leading-relaxed font-light"
         >
-          I craft intuitive digital experiences that bridge user needs with business goals, 
-          helping startups and established companies create products people love to use.
+          I create user-centered digital experiences with fresh insights and modern design 
+          approaches, ready to help startups and businesses bring their innovative ideas to life.
         </motion.p>
 
         <motion.div 
@@ -175,18 +175,18 @@ export default function Hero() {
                 </svg>
               </div>
               <div>
-                <div className="text-sm font-semibold text-[rgb(var(--text))]">Certified UI/UX Designer</div>
-                <div className="text-xs text-[rgb(var(--muted))]">Professional Design Expertise</div>
+                <div className="text-sm font-semibold text-[rgb(var(--text))]">UI/UX Design Certified</div>
+                <div className="text-xs text-[rgb(var(--muted))]">Recent Graduate - Ready to Learn & Grow</div>
               </div>
             </div>
             
             <div className="h-8 w-px bg-[rgb(var(--border))]" />
             
             <div className="flex items-center gap-3">
-              <div className="text-2xl font-bold text-[rgb(var(--accent))]">5+</div>
+              <div className="text-2xl font-bold text-[rgb(var(--accent))]">🚀</div>
               <div>
-                <div className="text-sm font-semibold text-[rgb(var(--text))]">Years Experience</div>
-                <div className="text-xs text-[rgb(var(--muted))]">Design Industry</div>
+                <div className="text-sm font-semibold text-[rgb(var(--text))]">Fresh Perspective</div>
+                <div className="text-xs text-[rgb(var(--muted))]">Modern Design Approaches</div>
               </div>
             </div>
           </div>

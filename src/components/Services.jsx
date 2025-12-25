@@ -145,7 +145,7 @@ export default function Services() {
             <motion.p 
               className="text-sm text-[rgb(var(--muted))] font-medium tracking-wider uppercase"
             >
-              Professional Design Services
+              Design Services I Offer
             </motion.p>
           </motion.div>
           
