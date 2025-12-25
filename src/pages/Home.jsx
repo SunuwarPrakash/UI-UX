@@ -4,6 +4,8 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
+import Services from "../components/Services";
+import Testimonials from "../components/Testimonials";
 import Projects from "../components/Projects";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
@@ -15,7 +17,7 @@ export default function Home({ dark, setDark }) {
   const [activeProject, setActiveProject] = useState(null);
   
   // Navigation sections
-  const sections = ["Home", "About", "Projects", "Contact"];
+  const sections = ["Home", "About", "Services", "Projects", "Contact"];
 
   return (
     <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] transition-colors">
@@ -35,6 +37,12 @@ export default function Home({ dark, setDark }) {
 
         {/* ABOUT */}
         <About />
+
+        {/* SERVICES */}
+        <Services />
+
+        {/* TESTIMONIALS */}
+        <Testimonials />
 
         {/* PROJECTS */}
         <Projects setActiveProject={setActiveProject} />

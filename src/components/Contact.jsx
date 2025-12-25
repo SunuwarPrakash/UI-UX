@@ -88,9 +88,9 @@ export default function Contact() {
               variants={itemVariants}
               className="text-lg text-[rgb(var(--muted))] leading-relaxed"
             >
-              Have a project in mind, a startup idea, or need help designing a
-              product? I'm here to help bring your vision to life with modern,
-              accessible, and user-focused solutions.
+              Ready to create a digital product that your users will love? Let's discuss 
+              your UI/UX design needs, from user research to final prototypes. 
+              I'm here to help transform your ideas into exceptional user experiences.
             </motion.p>
           </div>
 
@@ -201,7 +201,7 @@ export default function Contact() {
                   onChange={handleInputChange}
                   required
                   rows={5}
-                  placeholder="Tell me about your project, timeline, goals, and budget..."
+                  placeholder="Describe your design project, target users, business goals, timeline, and any specific design challenges you're facing..."
                   className="w-full px-4 py-3 rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--surface))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--accent))] focus:border-transparent transition-all duration-300 resize-none"
                   whileFocus={{ scale: 1.02 }}
                 />
