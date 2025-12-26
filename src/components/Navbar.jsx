@@ -5,13 +5,55 @@ export default function Navbar({ dark, setDark, menuOpen, setMenuOpen, sections 
   return (
     <header className="sticky top-0 z-50 bg-[rgb(var(--bg))] border-b border-[rgb(var(--border))] backdrop-blur-sm bg-opacity-95">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center">
-        {/* LOGO */}
+        {/* PROFESSIONAL LOGO */}
         <motion.a
           href="#home"
-          className="font-bold text-xl bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 bg-clip-text text-transparent hover:from-blue-600 hover:to-[rgb(var(--accent))] transition-all duration-300"
+          className="flex items-center group"
           whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          Prakash
+          {/* Logo Symbol */}
+          <motion.div
+            className="w-10 h-10 mr-3 rounded-xl bg-gradient-to-br from-[rgb(var(--accent))] to-blue-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300"
+            whileHover={{ 
+              rotate: [0, -10, 10, 0],
+              transition: { duration: 0.5 }
+            }}
+          >
+            {/* Modern "P" Symbol - UI/UX Design Inspired */}
+            <svg 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              className="text-white"
+            >
+              <path 
+                d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" 
+                fill="currentColor"
+                opacity="0.8"
+              />
+              <circle 
+                cx="12" 
+                cy="12" 
+                r="8" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                fill="none"
+                opacity="0.6"
+              />
+            </svg>
+          </motion.div>
+          
+          {/* Logo Text */}
+          <div className="flex flex-col">
+            <span className="font-bold text-xl leading-tight bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-[rgb(var(--accent))] transition-all duration-300">
+              Prakash
+            </span>
+            <span className="text-xs text-[rgb(var(--muted))] -mt-1 font-medium tracking-wider uppercase">
+              UI/UX Designer
+            </span>
+          </div>
         </motion.a>
 
         {/* RIGHT SIDE */}

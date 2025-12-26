@@ -23,6 +23,7 @@ export const projects = [
     title: "Furni - Modern Interior E-commerce",
     description: "Complete interior design e-commerce platform featuring modern furniture collections, seamless shopping experience, and intuitive product discovery. Includes advanced filtering, wishlist functionality, and optimized checkout process for home decor enthusiasts.",
     image: ecommerceImg,
+    figmaEmbed: "https://embed.figma.com/proto/UJXukoCvPOeNN52YHpND6P/Furni-Interior?node-id=201-2347&embed-host=share",
     link: "https://www.figma.com/proto/UJXukoCvPOeNN52YHpND6P/Furni-Interior?node-id=201-2347&t=wKh5Yc1qZ6gZ9mKc-1",
     technologies: ["Figma", "E-commerce", "Interior Design"],
     category: "E-commerce"

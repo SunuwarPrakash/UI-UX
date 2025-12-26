@@ -79,50 +79,22 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 overflow-hidden"
+      className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 overflow-hidden"
     >
-      {/* Background Design Elements */}
+      {/* Background Design Elements - Optimized */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Primary Gradient Background */}
-        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-[rgb(var(--accent))]/5 to-blue-400/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-purple-400/5 to-[rgb(var(--accent))]/5 rounded-full blur-3xl" />
+        {/* Primary Gradient Background - Static */}
+        <div className="absolute top-20 left-20 w-96 h-96 bg-gradient-to-br from-[rgb(var(--accent))]/3 to-blue-400/3 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-br from-purple-400/3 to-[rgb(var(--accent))]/3 rounded-full blur-3xl" />
         
-        {/* Floating Geometric Elements */}
+        {/* Single Floating Element - Reduced from 3 to 1 */}
         <motion.div
-          className="absolute top-1/4 left-10 w-2 h-2 bg-[rgb(var(--accent))]/20 rounded-full"
+          className="absolute top-1/4 left-10 w-2 h-2 bg-[rgb(var(--accent))]/15 rounded-full"
           animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.5, 0.2],
+            y: [0, -20, 0],
           }}
           transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
-        <motion.div
-          className="absolute top-1/3 right-16 w-3 h-3 bg-blue-400/15 rounded-full"
-          animate={{
-            y: [0, 25, 0],
-            x: [0, 15, 0],
-            opacity: [0.15, 0.4, 0.15],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-        
-        <motion.div
-          className="absolute bottom-1/4 left-1/4 w-1 h-16 bg-gradient-to-b from-[rgb(var(--accent))]/10 to-transparent"
-          animate={{
-            rotate: [0, 5, 0],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{
-            duration: 6,
+            duration: 8,
             repeat: Infinity,
             ease: "easeInOut"
           }}

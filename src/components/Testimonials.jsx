@@ -61,7 +61,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="relative max-w-7xl mx-auto px-4 sm:px-6 py-24 overflow-hidden"
+      className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 overflow-hidden"
     >
       {/* Background Design Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

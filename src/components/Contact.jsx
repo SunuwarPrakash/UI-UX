@@ -56,7 +56,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="max-w-7xl mx-auto px-4 sm:px-6 py-24"
+      className="max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24"
     >
       <motion.div
         variants={containerVariants}

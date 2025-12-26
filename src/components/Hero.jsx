@@ -41,7 +41,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative max-w-7xl mx-auto px-4 sm:px-6 py-28 md:py-32 grid md:grid-cols-2 gap-16 items-center overflow-hidden"
+      className="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 grid md:grid-cols-2 gap-8 md:gap-16 items-center overflow-hidden"
     >
       {/* Background Design Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -162,12 +162,12 @@ export default function Hero() {
           </motion.a>
         </motion.div>
 
-        {/* Professional Achievement Badge */}
+        {/* Professional Achievement Badge - Performance Optimized */}
         <motion.div 
           variants={itemVariants}
           className="pt-8 border-t border-[rgb(var(--border))] mt-8"
         >
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-gradient-to-br from-[rgb(var(--accent))] to-blue-600 rounded-2xl flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +180,7 @@ export default function Hero() {
               </div>
             </div>
             
-            <div className="h-8 w-px bg-[rgb(var(--border))]" />
+            <div className="hidden sm:block h-8 w-px bg-[rgb(var(--border))]" />
             
             <div className="flex items-center gap-3">
               <div className="text-2xl font-bold text-[rgb(var(--accent))]">🚀</div>
@@ -195,79 +195,31 @@ export default function Hero() {
 
       </motion.div>
 
-      {/* RIGHT (PROFESSIONAL IMAGE & DESIGN ELEMENTS) */}
+      {/* RIGHT (PROFESSIONAL IMAGE & DESIGN ELEMENTS) - Performance Optimized */}
       <motion.div 
         variants={imageVariants}
         initial="hidden"
         animate="visible"
         className="hidden md:flex justify-center items-center relative"
       >
-        {/* Background Design System */}
+        {/* Background Design System - Reduced Animations */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Primary Gradient */}
+          {/* Primary Gradient - Static for performance */}
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-[rgb(var(--accent))]/10 to-blue-400/5 rounded-full blur-3xl" />
+          
+          {/* Secondary Gradient - Static for performance */}
+          <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-br from-purple-400/5 to-[rgb(var(--accent))]/5 rounded-full blur-2xl" />
+          
+          {/* Single Floating Geometric Shape - Reduced from 3 to 1 */}
           <motion.div
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-[rgb(var(--accent))]/15 to-blue-400/10 rounded-full blur-3xl"
+            className="absolute top-20 right-20 w-3 h-3 bg-[rgb(var(--accent))]/20 rounded-full"
             animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
+              y: [-10, 10, -10],
             }}
             transition={{
               duration: 6,
               repeat: Infinity,
               ease: "easeInOut"
-            }}
-          />
-          
-          {/* Secondary Gradient */}
-          <motion.div
-            className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-gradient-to-br from-purple-400/10 to-[rgb(var(--accent))]/10 rounded-full blur-2xl"
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          
-          {/* Floating Geometric Shapes */}
-          <motion.div
-            className="absolute top-20 right-20 w-3 h-3 bg-[rgb(var(--accent))]/30 rounded-full"
-            animate={{
-              y: [-20, 20, -20],
-              x: [-10, 10, -10],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          
-          <motion.div
-            className="absolute bottom-32 left-16 w-2 h-2 bg-blue-400/40 rounded-full"
-            animate={{
-              y: [15, -15, 15],
-              x: [5, -5, 5],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-          
-          <motion.div
-            className="absolute top-1/2 right-8 w-1 h-8 bg-gradient-to-b from-[rgb(var(--accent))]/20 to-transparent"
-            animate={{
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "linear"
             }}
           />
         </div>
@@ -289,8 +241,9 @@ export default function Hero() {
             <div className="relative bg-[rgb(var(--bg))] rounded-3xl p-2 shadow-2xl">
               <img
                 src={avatar}
-                alt="Prakash Sunuwar - UI/UX Designer"
+                alt="Prakash Sunuwar - Professional UI/UX Designer and Portfolio Website"
                 className="w-80 h-80 rounded-2xl object-cover"
+                loading="lazy"
               />
               
               {/* Overlay Elements */}
@@ -303,15 +256,14 @@ export default function Hero() {
             </div>
           </motion.div>
           
-          {/* Professional Floating Badges */}
+          {/* Professional Floating Badges - Reduced Animations */}
           <motion.div
             className="absolute -top-6 -right-6 w-20 h-20 bg-gradient-to-br from-[rgb(var(--accent))] to-blue-600 rounded-2xl flex items-center justify-center shadow-xl"
             animate={{
-              y: [-5, 5, -5],
-              rotate: [0, 2, -2, 0],
+              y: [-2, 2, -2],
             }}
             transition={{
-              duration: 4,
+              duration: 6,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -327,11 +279,10 @@ export default function Hero() {
           <motion.div
             className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-purple-500 to-[rgb(var(--accent))] rounded-xl flex items-center justify-center shadow-xl"
             animate={{
-              y: [5, -5, 5],
-              rotate: [0, -3, 3, 0],
+              y: [2, -2, 2],
             }}
             transition={{
-              duration: 3.5,
+              duration: 8,
               repeat: Infinity,
               ease: "easeInOut"
             }}
@@ -341,30 +292,17 @@ export default function Hero() {
             </svg>
           </motion.div>
           
-          {/* Design Process Indicators */}
-          <motion.div
-            className="absolute top-1/4 -left-8 flex flex-col gap-2"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 1 }}
-          >
+          {/* Design Process Indicators - Static for Performance */}
+          <div className="absolute top-1/4 -left-8 flex flex-col gap-2">
             {['🎯', '📐', '✨'].map((icon, index) => (
-              <motion.div
+              <div
                 key={index}
                 className="w-8 h-8 bg-[rgb(var(--surface))] rounded-lg flex items-center justify-center shadow-lg border border-[rgb(var(--border))]"
-                animate={{
-                  y: [0, -3, 0],
-                }}
-                transition={{
-                  duration: 2 + index * 0.5,
-                  repeat: Infinity,
-                  delay: index * 0.3,
-                }}
               >
                 <span className="text-sm">{icon}</span>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </motion.div>
     </section>

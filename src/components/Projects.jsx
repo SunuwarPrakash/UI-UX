@@ -31,7 +31,7 @@ export default function Projects({ setActiveProject }) {
   return (
     <section
       id="projects"
-      className="max-w-7xl mx-auto px-4 sm:px-6 py-24"
+      className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-24"
     >
       <motion.div
         variants={containerVariants}
@@ -78,7 +78,7 @@ export default function Projects({ setActiveProject }) {
             <div className="relative h-56 overflow-hidden">
               <motion.img
                 src={project.image}
-                alt={project.title}
+                alt={`${project.title} - UI/UX Design Portfolio Project by Prakash Sunuwar`}
                 className="w-full h-full object-cover"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.6 }}
