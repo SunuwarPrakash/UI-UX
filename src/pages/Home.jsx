@@ -5,11 +5,11 @@ import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import About from "../components/About";
 import Services from "../components/Services";
-import Testimonials from "../components/Testimonials";
 import Projects from "../components/Projects";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import ProjectModal from "../components/ProjectModal";
+import CustomCursor from "../components/CustomCursor";
 
 export default function Home({ dark, setDark }) {
   // State variables
@@ -21,6 +21,9 @@ export default function Home({ dark, setDark }) {
 
   return (
     <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] transition-colors">
+      {/* CUSTOM CURSOR */}
+      <CustomCursor />
+
       {/* NAVBAR */}
       <Navbar 
         dark={dark} 
@@ -40,9 +43,6 @@ export default function Home({ dark, setDark }) {
 
         {/* SERVICES */}
         <Services />
-
-        {/* TESTIMONIALS */}
-        <Testimonials />
 
         {/* PROJECTS */}
         <Projects setActiveProject={setActiveProject} />

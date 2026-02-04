@@ -1,483 +1,623 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { projects } from "../App";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Projects({ setActiveProject }) {
   const [activeModal, setActiveModal] = useState(null);
-  const [modalType, setModalType] = useState(null);
+  const [modalType, setModalType] = useState("preview");
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (activeModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeModal]);
+
+  // Close modal on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        setActiveModal(null);
+      }
+    };
+    if (activeModal) {
+      document.addEventListener("keydown", handleEscape);
+    }
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [activeModal]);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        delayChildren: 0.2,
-        staggerChildren: 0.1
-      }
+      transition: { staggerChildren: 0.08 }
     }
   };
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
-      transition: {
-        duration: 0.6,
-        ease: "easeOut"
-      }
+      transition: { duration: 0.5, ease: "easeOut" }
     }
   };
 
   return (
-    <section
-      id="projects"
-      className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-24"
-    >
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="text-center mb-16"
-      >
-        <motion.h2 
-          variants={itemVariants}
-          className="text-4xl md:text-5xl font-bold mb-4"
+    <>
+      <section id="projects" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+        {/* Section Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-12 md:mb-16"
         >
-          Featured Projects
-        </motion.h2>
-        <motion.p 
-          variants={itemVariants}
-          className="text-lg text-[rgb(var(--muted))] max-w-2xl mx-auto"
-        >
-          A collection of projects showcasing modern UI/UX design and frontend development skills
-        </motion.p>
-      </motion.div>
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
-      >
-        {projects.map((project, index) => (
-          <motion.article
-            key={project.title}
-            variants={itemVariants}
-            whileHover={{ y: -8, scale: 1.02 }}
-            className="group relative rounded-2xl border border-[rgb(var(--border))] overflow-hidden bg-[rgb(var(--card))] hover:shadow-2xl transition-all duration-500"
-            style={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              minHeight: '600px'
-            }}
+          <motion.h2
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3"
           >
-            {/* Project Image */}
-            <div className="relative h-56 overflow-hidden">
-              <motion.img
-                src={project.image}
-                alt={`${project.title} - UI/UX Design Portfolio Project by Prakash Sunuwar`}
-                className="w-full h-full object-cover"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.6 }}
-                loading="lazy"
-              />
-              
-              {/* Overlay */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-              />
-              
-              {/* Floating Action Button */}
-              <motion.button
-                onClick={() => setActiveProject(project)}
-                className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all duration-300"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </motion.button>
-            </div>
+            Featured Projects
+          </motion.h2>
+          <p className="text-[rgb(var(--muted))] text-base md:text-lg max-w-2xl mx-auto">
+            A collection of projects showcasing modern UI/UX design and frontend development skills
+          </p>
+        </motion.div>
 
-            {/* Content */}
-            <div className="p-6 flex flex-col h-full">
-              <div className="flex items-start justify-between mb-3">
-                <h3 className="text-xl font-bold group-hover:text-[rgb(var(--accent))] transition-colors duration-300">
-                  {project.title}
-                </h3>
-                <motion.span 
-                  className="text-xs px-2 py-1 rounded-full bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] font-medium flex-shrink-0"
-                  whileHover={{ scale: 1.05 }}
+        {/* Projects Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+        >
+          {projects.map((project, index) => (
+            <motion.article
+              key={project.title}
+              variants={itemVariants}
+              whileHover={{ y: -4 }}
+              className="group bg-[rgb(var(--card)] rounded-2xl overflow-hidden border border-[rgb(var(--border))] hover:border-[rgb(var(--accent))]/30 transition-all duration-300 cursor-pointer"
+              onClick={() => {
+                setActiveModal(project);
+                setModalType("preview");
+              }}
+            >
+              {/* Image Container */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-[rgb(var(--surface))]">
+                <motion.img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
+                
+                {/* Hover Overlay */}
+                <motion.div
+                  className="absolute inset-0 bg-[rgb(var(--accent))]/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                 >
+                  <motion.div
+                    className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </motion.div>
+                </motion.div>
+
+                {/* Index Badge */}
+                <div className="absolute top-3 left-3 w-7 h-7 bg-black/40 backdrop-blur-sm rounded-full flex items-center justify-center text-white text-sm font-medium">
                   {index + 1}
-                </motion.span>
+                </div>
               </div>
 
-              <div className="flex-1 flex flex-col">
-                <p className="text-sm text-[rgb(var(--muted))] leading-relaxed mb-4">
+              {/* Content */}
+              <div className="p-5">
+                <h3 className="text-lg font-semibold text-[rgb(var(--text))] mb-2 group-hover:text-[rgb(var(--accent))] transition-colors">
+                  {project.title}
+                </h3>
+                
+                <p className="text-[rgb(var(--muted))] text-sm leading-relaxed line-clamp-2 mb-4">
                   {project.description}
                 </p>
 
-                {/* Technologies */}
-                <div className="flex flex-wrap gap-2 mb-auto">
-                  {project.technologies?.map((tech) => (
+                {/* Tech Tags */}
+                <div className="flex flex-wrap gap-1.5">
+                  {project.technologies?.slice(0, 3).map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 text-xs rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
-                    >
-                      {tech}
-                    </span>
-                  )) || ['Figma', 'UI/UX', 'Design'].map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-3 py-1 text-xs rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
+                      className="px-2.5 py-1 text-xs font-medium rounded-full bg-[rgb(var(--surface))] text-[rgb(var(--muted))] border border-[rgb(var(--border))]"
                     >
                       {tech}
                     </span>
                   ))}
                 </div>
               </div>
+            </motion.article>
+          ))}
+        </motion.div>
 
-              {/* Actions - Always at bottom */}
-              <div className="flex gap-3">
-                <motion.button
-                  onClick={() => {
-                    setActiveModal(project);
-                    setModalType('case-study');
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex-1 px-4 py-2.5 text-sm rounded-xl bg-[rgb(var(--accent))] text-white font-medium text-center hover:shadow-lg transition-all duration-300"
-                >
-                  View Case Study
-                </motion.button>
-                
-                <motion.button
-                  onClick={() => {
-                    if (project.figmaEmbed) {
-                      setActiveModal(project);
-                      setModalType('preview');
-                    } else {
-                      window.open(project.link, '_blank');
-                    }
-                  }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2.5 text-sm rounded-xl border-2 border-[rgb(var(--border))] hover:bg-[rgb(var(--surface))] transition-all duration-300 font-medium"
-                >
-                  Preview
-                </motion.button>
-              </div>
-            </div>
-
-            {/* Progress Indicator */}
-            <motion.div
-              className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-[rgb(var(--accent))] to-blue-400 origin-left"
-              initial={{ scaleX: 0 }}
-              whileHover={{ scaleX: 1 }}
-              transition={{ duration: 0.3 }}
-            />
-          </motion.article>
-        ))}
-      </motion.div>
-
-      {/* View All Projects CTA */}
-      <motion.div
-        variants={itemVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        className="text-center mt-16"
-      >
-        <motion.a
-          href="#contact"
-          whileHover={{ scale: 1.05, y: -2 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border-2 border-[rgb(var(--accent))] text-[rgb(var(--accent))] font-semibold hover:bg-[rgb(var(--accent))] hover:text-white transition-all duration-300"
-        >
-          Let's Work Together
-          <motion.svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            whileHover={{ x: 4 }}
-            transition={{ duration: 0.2 }}
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </motion.svg>
-        </motion.a>
-      </motion.div>
-
-      {/* Project Modal */}
-      {activeModal && (
+        {/* CTA */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-          onClick={() => setActiveModal(null)}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="text-center mt-12"
         >
-          <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-[rgb(var(--card))] rounded-2xl border border-[rgb(var(--border))] shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
+          <motion.a
+            href="#contact"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[rgb(var(--accent))] text-white font-semibold hover:shadow-lg hover:shadow-[rgb(var(--accent))]/25 transition-all duration-300"
           >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-[rgb(var(--border))]">
-              <div>
-                <h3 className="text-2xl font-bold text-[rgb(var(--text))]">{activeModal.title}</h3>
-                <p className="text-[rgb(var(--muted))] mt-1">{activeModal.description}</p>
-              </div>
-              <button
-                onClick={() => setActiveModal(null)}
-                className="w-10 h-10 rounded-full bg-[rgb(var(--surface))] hover:bg-[rgb(var(--accent))] text-[rgb(var(--text))] hover:text-white transition-all duration-300 flex items-center justify-center"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+            Let's Work Together
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </motion.a>
+        </motion.div>
+      </section>
 
-            {/* Modal Content */}
-            <div className="p-6 overflow-y-auto max-h-[70vh]">
-              {modalType === 'case-study' ? (
-                // Case Study Content
-                <div className="space-y-8">
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">FoodHub App Overview</h4>
-                    <p className="text-[rgb(var(--muted))] leading-relaxed">
-                      FoodHub is a comprehensive food ordering and delivery mobile application designed to make ordering food from any restaurant quick, easy, and enjoyable. The app features intuitive restaurant discovery, seamless ordering flow, and real-time delivery tracking.
-                    </p>
-                  </div>
+      {/* Professional Modal */}
+      <AnimatePresence>
+        {activeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+          >
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-black/70 backdrop-blur-sm"
+              onClick={() => setActiveModal(null)}
+            />
 
-                  {/* Process Timeline */}
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">Design Process for FoodHub</h4>
-                    <div className="space-y-4">
-                      <div className="flex items-start gap-4">
-                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
-                        <div>
-                          <h5 className="font-semibold text-[rgb(var(--text))]">Food Industry Research</h5>
-                          <p className="text-[rgb(var(--muted))] text-sm">Analyzed food delivery patterns, user pain points, and competitive landscape in the food tech industry</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
-                        <div>
-                          <h5 className="font-semibold text-[rgb(var(--text))]">App Flow Wireframing</h5>
-                          <p className="text-[rgb(var(--muted))] text-sm">Mapped out user journeys from restaurant discovery to order completion and delivery tracking</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
-                        <div>
-                          <h5 className="font-semibold text-[rgb(var(--text))]">Mobile UI Design</h5>
-                          <p className="text-[rgb(var(--muted))] text-sm">Created mobile-first interface with appetizing visuals, clear navigation, and streamlined ordering process</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start gap-4">
-                        <div className="w-8 h-8 bg-[rgb(var(--accent))] rounded-full flex items-center justify-center text-white text-sm font-bold">4</div>
-                        <div>
-                          <h5 className="font-semibold text-[rgb(var(--text))]">Food App Testing</h5>
-                          <p className="text-[rgb(var(--muted))] text-sm">Tested ordering flows, menu browsing, and delivery tracking with target food delivery users</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Challenges & Solutions */}
-                  <div>
-                    <h4 className="text-xl font-semibold mb-4 text-[rgb(var(--text))]">FoodHub Design Challenges & Solutions</h4>
-                    <div className="space-y-4">
-                      <div className="bg-[rgb(var(--surface))] p-4 rounded-xl">
-                        <h5 className="font-semibold text-[rgb(var(--text))] mb-2">Challenge: Menu Complexity</h5>
-                        <p className="text-[rgb(var(--muted))] text-sm">Restaurants often have complex menus with modifiers, special requests, and dietary information that can overwhelm users.</p>
-                      </div>
-                      <div className="bg-[rgb(var(--accent))]/10 p-4 rounded-xl border border-[rgb(var(--accent))]/20">
-                        <h5 className="font-semibold text-[rgb(var(--accent))] mb-2">Solution: Smart Menu Design</h5>
-                        <p className="text-[rgb(var(--muted))] text-sm">Implemented progressive disclosure with clear categories, visual food photography, and simplified customization options.</p>
-                      </div>
-                      <div className="bg-[rgb(var(--surface))] p-4 rounded-xl">
-                        <h5 className="font-semibold text-[rgb(var(--text))] mb-2">Challenge: Order Tracking</h5>
-                        <p className="text-[rgb(var(--muted))] text-sm">Users need to know exactly when their food will arrive and what stage their order is in during preparation and delivery.</p>
-                      </div>
-                      <div className="bg-[rgb(var(--accent))]/10 p-4 rounded-xl border border-[rgb(var(--accent))]/20">
-                        <h5 className="font-semibold text-[rgb(var(--accent))] mb-2">Solution: Real-time Tracking</h5>
-                        <p className="text-[rgb(var(--muted))] text-sm">Designed clear order status indicators with estimated delivery times and real-time driver location on map.</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Technologies & Skills */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="text-lg font-semibold mb-3 text-[rgb(var(--text))]">FoodHub Technologies</h4>
-                      <div className="flex flex-wrap gap-2">
-                        {activeModal.technologies?.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-3 py-1 text-sm rounded-full bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] border border-[rgb(var(--accent))]/20"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-semibold mb-3 text-[rgb(var(--text))]">Food App Features</h4>
-                      <ul className="space-y-2 text-[rgb(var(--muted))] text-sm">
-                        <li className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
-                          Restaurant Discovery & Search
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
-                          Smart Menu Browsing
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
-                          Real-time Order Tracking
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
-                          Secure Payment Integration
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <div className="w-1.5 h-1.5 bg-[rgb(var(--accent))] rounded-full"></div>
-                          User Account & Order History
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              ) : modalType === 'preview' ? (
-                // Preview Content (Figma Embed)
-                <div className="space-y-6">
-                  <div className="text-center">
-                    <h4 className="text-xl font-semibold mb-2 text-[rgb(var(--text))]">Design Preview</h4>
-                    <p className="text-[rgb(var(--muted))] text-sm">Interact with the live Figma design below</p>
-                  </div>
-                  
-                  {activeModal.figmaEmbed ? (
-                    <div className="relative">
-                      <iframe
-                        style={{ border: "1px solid rgba(0, 0, 0, 0.1)" }}
-                        width="100%"
-                        height="600"
-                        src={activeModal.figmaEmbed}
-                        allowFullScreen
-                        className="rounded-xl shadow-lg"
-                      />
-                    </div>
-                  ) : (
-                    <div className="text-center py-12">
-                      <div className="text-6xl mb-4">🚀</div>
-                      <h4 className="text-xl font-semibold text-[rgb(var(--text))] mb-2">Design Preview</h4>
-                      <p className="text-[rgb(var(--muted))] mb-6">
-                        This design preview is coming soon. Check back for interactive design exploration.
-                      </p>
-                      <motion.button
-                        onClick={() => window.open(activeModal.link, '_blank')}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="px-6 py-3 rounded-xl bg-[rgb(var(--accent))] text-white font-semibold hover:shadow-lg transition-all duration-300"
-                      >
-                        View Design
-                      </motion.button>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                // Fallback content
-                <div className="text-center py-12">
-                  <div className="text-6xl mb-4">🚀</div>
-                  <h4 className="text-xl font-semibold text-[rgb(var(--text))] mb-2">Project Preview</h4>
-                  <p className="text-[rgb(var(--muted))] mb-6">
-                    This project showcase is coming soon. Check back for detailed case studies and design process documentation.
-                  </p>
-                  <motion.button
-                    onClick={() => window.open(activeModal.link, '_blank')}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="px-6 py-3 rounded-xl bg-[rgb(var(--accent))] text-white font-semibold hover:shadow-lg transition-all duration-300"
+            {/* Modal Container */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              className="relative w-full max-w-6xl max-h-[92vh] md:max-h-[90vh] bg-[rgb(var(--bg))] rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl flex flex-col"
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 md:px-8 py-4 md:py-5 border-b border-[rgb(var(--border))] flex-shrink-0">
+                <div className="flex items-center gap-3 md:gap-4">
+                  <h3 
+                    id="modal-title" 
+                    className="text-lg md:text-2xl font-bold text-[rgb(var(--text))]"
                   >
-                    View Project
-                  </motion.button>
+                    {activeModal.title}
+                  </h3>
+                  <span className="hidden sm:inline-flex px-3 py-1 text-xs font-medium rounded-full bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))]">
+                    {activeModal.category}
+                  </span>
                 </div>
-              )}
-            </div>
-
-            {/* Modal Footer */}
-            {activeModal.link && activeModal.link !== "#" && (
-              <div className="p-6 border-t border-[rgb(var(--border))] bg-[rgb(var(--surface))]/50">
-                <div className="flex justify-center gap-3">
-                  {modalType === 'case-study' ? (
-                    <motion.button
-                      onClick={() => {
-                        setModalType('preview');
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-[rgb(var(--border))] text-[rgb(var(--text))] font-semibold hover:bg-[rgb(var(--surface))] transition-all duration-300"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                      </svg>
-                      Preview Design
-                    </motion.button>
-                  ) : (
-                    <motion.button
-                      onClick={() => {
-                        setModalType('case-study');
-                      }}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-[rgb(var(--border))] text-[rgb(var(--text))] font-semibold hover:bg-[rgb(var(--surface))] transition-all duration-300"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                      View Case Study
-                    </motion.button>
-                  )}
-                  
+                <div className="flex items-center gap-2">
+                  {/* View on Figma Button */}
                   <motion.a
                     href={activeModal.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[rgb(var(--accent))] text-white font-semibold hover:shadow-lg transition-all duration-300"
+                    className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg bg-[rgb(var(--surface))] text-[rgb(var(--text))] hover:bg-[rgb(var(--border))] transition-colors"
                   >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" />
+                      <path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z" />
+                      <path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z" />
+                      <path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" />
+                      <path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z" />
+                    </svg>
                     Open in Figma
-                    <motion.svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      whileHover={{ x: 4 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </motion.svg>
+                  </motion.a>
+                  
+                  {/* Close Button */}
+                  <motion.button
+                    onClick={() => setActiveModal(null)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    className="w-10 h-10 rounded-full bg-[rgb(var(--surface))] hover:bg-[rgb(var(--accent))] text-[rgb(var(--text))] hover:text-white transition-colors flex items-center justify-center"
+                    aria-label="Close modal"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* Tab Navigation */}
+              <div className="flex items-center gap-1 px-4 md:px-8 py-3 border-b border-[rgb(var(--border))] bg-[rgb(var(--surface))]/30 flex-shrink-0 overflow-x-auto">
+                <TabButton 
+                  active={modalType === "preview"} 
+                  onClick={() => setModalType("preview")}
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  }
+                  label="Preview"
+                />
+                <TabButton 
+                  active={modalType === "case-study"} 
+                  onClick={() => setModalType("case-study")}
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  }
+                  label="Case Study"
+                />
+                <TabButton 
+                  active={modalType === "details"} 
+                  onClick={() => setModalType("details")}
+                  icon={
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  }
+                  label="Details"
+                />
+              </div>
+
+              {/* Modal Content */}
+              <div className="flex-1 overflow-y-auto overflow-x-hidden">
+                {modalType === "preview" && (
+                  <PreviewTab modal={activeModal} />
+                )}
+                {modalType === "case-study" && (
+                  <CaseStudyTab modal={activeModal} />
+                )}
+                {modalType === "details" && (
+                  <DetailsTab modal={activeModal} />
+                )}
+              </div>
+
+              {/* Footer Actions */}
+              <div className="flex items-center justify-between gap-4 px-5 md:px-8 py-4 border-t border-[rgb(var(--border))] bg-[rgb(var(--surface))]/30 flex-shrink-0">
+                <div className="hidden md:flex items-center gap-2 text-sm text-[rgb(var(--muted))]">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Press ESC to close
+                </div>
+                <div className="flex items-center gap-3 w-full md:w-auto justify-end">
+                  <motion.button
+                    onClick={() => setActiveModal(null)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-5 py-2.5 text-sm font-medium rounded-xl border border-[rgb(var(--border))] text-[rgb(var(--text))] hover:bg-[rgb(var(--surface))] transition-colors"
+                  >
+                    Close
+                  </motion.button>
+                  <motion.a
+                    href={activeModal.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-xl bg-[rgb(var(--accent))] text-white hover:shadow-lg transition-all"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" />
+                      <path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z" />
+                      <path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z" />
+                      <path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" />
+                      <path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z" />
+                    </svg>
+                    View in Figma
                   </motion.a>
                 </div>
               </div>
-            )}
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
-    </section>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
+
+// Tab Button Component
+function TabButton({ active, onClick, icon, label }) {
+  return (
+    <motion.button
+      onClick={onClick}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+        active
+          ? "bg-[rgb(var(--accent))] text-white shadow-lg"
+          : "text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] hover:bg-[rgb(var(--surface))]"
+      }`}
+    >
+      {icon}
+      {label}
+    </motion.button>
+  );
+}
+
+// Preview Tab Component
+function PreviewTab({ modal }) {
+  return (
+    <div className="p-4 md:p-8">
+      {modal.figmaEmbed ? (
+        <div className="space-y-6">
+          {/* Figma Embed */}
+          <div className="relative rounded-xl overflow-hidden bg-[rgb(var(--surface))] border border-[rgb(var(--border))]">
+            <iframe
+              width="100%"
+              height={window.innerWidth < 768 ? "450" : "650"}
+              src={modal.figmaEmbed}
+              allowFullScreen
+              className="w-full block"
+              style={{ border: "none", minHeight: window.innerWidth < 768 ? "450px" : "650px" }}
+              title={`${modal.title} Preview`}
+            />
+          </div>
+          
+          {/* Quick Info */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="bg-[rgb(var(--surface))] rounded-xl p-5">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[rgb(var(--muted))] mb-2">Project</h4>
+              <p className="text-[rgb(var(--text))] font-medium">{modal.title}</p>
+            </div>
+            <div className="bg-[rgb(var(--surface))] rounded-xl p-5">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[rgb(var(--muted))] mb-2">Category</h4>
+              <p className="text-[rgb(var(--text))] font-medium">{modal.category}</p>
+            </div>
+            <div className="bg-[rgb(var(--surface))] rounded-xl p-5">
+              <h4 className="text-xs font-semibold uppercase tracking-wider text-[rgb(var(--muted))] mb-2">Link</h4>
+              <motion.a
+                href={modal.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.02 }}
+                className="text-[rgb(var(--accent))] font-medium flex items-center gap-1"
+              >
+                Open in Figma
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </motion.a>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="text-center py-16">
+          <div className="w-20 h-20 bg-[rgb(var(--surface))] rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg className="w-10 h-10 text-[rgb(var(--muted))]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </div>
+          <h4 className="text-xl font-semibold text-[rgb(var(--text))] mb-3">Preview Coming Soon</h4>
+          <p className="text-[rgb(var(--muted))] mb-8 max-w-md mx-auto">
+            This design preview is being prepared. You can view the full project in Figma.
+          </p>
+          <motion.a
+            href={modal.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[rgb(var(--accent))] text-white font-semibold hover:shadow-lg transition-all"
+          >
+            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5z" />
+              <path d="M12 2h3.5a3.5 3.5 0 1 1 0 7H12V2z" />
+              <path d="M12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0z" />
+              <path d="M5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0z" />
+              <path d="M5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z" />
+            </svg>
+            Open in Figma
+          </motion.a>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Case Study Tab Component
+function CaseStudyTab({ modal }) {
+  return (
+    <div className="p-4 md:p-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Overview */}
+        <div>
+          <h3 className="text-xl md:text-2xl font-bold text-[rgb(var(--text))] mb-4">Project Overview</h3>
+          <p className="text-[rgb(var(--muted))] leading-relaxed text-base md:text-lg">
+            {modal.description}
+          </p>
+        </div>
+
+        {/* Process */}
+        <div>
+          <h3 className="text-xl md:text-2xl font-bold text-[rgb(var(--text))] mb-4">Design Process</h3>
+          <div className="space-y-4">
+            <ProcessStep 
+              number="1" 
+              title="Research & Discovery" 
+              description="Analyzed user needs, market trends, and competitive landscape to establish a solid foundation for the design direction."
+            />
+            <ProcessStep 
+              number="2" 
+              title="Wireframing & Prototyping" 
+              description="Created low-fidelity wireframes to map out user flows and information architecture before moving to high-fidelity designs."
+            />
+            <ProcessStep 
+              number="3" 
+              title="Visual Design" 
+              description="Applied design system, typography, and visual hierarchy to create polished, production-ready mockups."
+            />
+            <ProcessStep 
+              number="4" 
+              title="Testing & Iteration" 
+              description="Validated designs through user testing and feedback, iterating to improve usability and visual appeal."
+            />
+          </div>
+        </div>
+
+        {/* Technologies */}
+        <div>
+          <h3 className="text-xl md:text-2xl font-bold text-[rgb(var(--text))] mb-4">Technologies & Tools</h3>
+          <div className="flex flex-wrap gap-3">
+            {modal.technologies?.map((tech) => (
+              <span
+                key={tech}
+                className="px-4 py-2 text-sm font-medium rounded-xl bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] border border-[rgb(var(--accent))]/20"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Process Step Component
+function ProcessStep({ number, title, description }) {
+  return (
+    <div className="flex gap-4 p-4 rounded-xl bg-[rgb(var(--surface))]">
+      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[rgb(var(--accent))] text-white font-bold flex items-center justify-center">
+        {number}
+      </div>
+      <div>
+        <h4 className="font-semibold text-[rgb(var(--text))] mb-1">{title}</h4>
+        <p className="text-[rgb(var(--muted))] text-sm leading-relaxed">{description}</p>
+      </div>
+    </div>
+  );
+}
+
+// Details Tab Component
+function DetailsTab({ modal }) {
+  return (
+    <div className="p-4 md:p-8">
+      <div className="max-w-4xl mx-auto space-y-8">
+        {/* Project Info */}
+        <div className="grid md:grid-cols-2 gap-6">
+          <DetailCard 
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            }
+            label="Project Title"
+            value={modal.title}
+          />
+          <DetailCard 
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+            }
+            label="Category"
+            value={modal.category}
+          />
+          <DetailCard 
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            }
+            label="Technologies"
+            value={modal.technologies?.join(", ")}
+          />
+          <DetailCard 
+            icon={
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              </svg>
+            }
+            label="Project Link"
+            value="View in Figma"
+            isLink
+            href={modal.link}
+          />
+        </div>
+
+        {/* Description */}
+        <div className="bg-[rgb(var(--surface))] rounded-xl p-6">
+          <h3 className="font-semibold text-[rgb(var(--text))] mb-3">Description</h3>
+          <p className="text-[rgb(var(--muted))] leading-relaxed">{modal.description}</p>
+        </div>
+
+        {/* Features */}
+        <div>
+          <h3 className="font-semibold text-[rgb(var(--text))] mb-4">Key Features</h3>
+          <div className="grid md:grid-cols-2 gap-3">
+            <FeatureItem text="Modern UI/UX Design" />
+            <FeatureItem text="Responsive Layout" />
+            <FeatureItem text="User-Centered Approach" />
+            <FeatureItem text="Professional Finish" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Detail Card Component
+function DetailCard({ icon, label, value, isLink, href }) {
+  const content = (
+    <>
+      <div className="w-10 h-10 rounded-lg bg-[rgb(var(--accent))]/10 text-[rgb(var(--accent))] flex items-center justify-center flex-shrink-0">
+        {icon}
+      </div>
+      <div>
+        <p className="text-xs font-medium uppercase tracking-wider text-[rgb(var(--muted))] mb-1">{label}</p>
+        <p className="text-[rgb(var(--text))] font-medium">{value}</p>
+      </div>
+    </>
+  );
+
+  if (isLink) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-4 p-4 rounded-xl bg-[rgb(var(--surface))] hover:bg-[rgb(var(--surface))]/80 transition-colors"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div className="flex items-center gap-4 p-4 rounded-xl bg-[rgb(var(--surface))]">
+      {content}
+    </div>
+  );
+}
+
+// Feature Item Component
+function FeatureItem({ text }) {
+  return (
+    <div className="flex items-center gap-3 p-3 rounded-lg bg-[rgb(var(--surface))]">
+      <svg className="w-5 h-5 text-[rgb(var(--accent))] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      </svg>
+      <span className="text-[rgb(var(--text))] text-sm">{text}</span>
+    </div>
+  );
+}
+

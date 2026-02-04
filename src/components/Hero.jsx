@@ -109,7 +109,7 @@ export default function Hero() {
 
         <motion.div 
           variants={itemVariants}
-          className="flex gap-4 pt-6"
+          className="flex flex-col sm:flex-row gap-4 pt-6"
         >
           <motion.a
             href="#services"

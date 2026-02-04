@@ -7,12 +7,15 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   font-family: 'Inter', sans-serif;
   transition: background-color 0.3s, color 0.3s;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* ===== DESIGN SYSTEM ===== */
@@ -54,6 +57,66 @@ body {
   --info: 96 165 250;
 }
 
+/* ===== MOBILE TOUCH OPTIMIZATIONS ===== */
+
+/* Minimum touch target size - 44x44px minimum for accessibility */
+@media (max-width: 767px) {
+  button,
+  [role="button"],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Ensure buttons have adequate touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Larger tap areas for important actions */
+  .cta-button {
+    min-height: 52px;
+    padding: 12px 24px;
+  }
+  
+  /* Disable hover effects on touch devices to prevent sticky hover states */
+  .group:hover .group-hover\:opacity-100 {
+    opacity: 1 !important;
+  }
+  
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+  
+  /* Prevent text size adjustment on orientation change */
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+  
+  /* Better touch feedback on mobile */
+  @media (hover: none) and (pointer: coarse) {
+    button:active,
+    a:active,
+    [role="button"]:active {
+      transform: scale(0.98);
+      opacity: 0.8;
+    }
+  }
+}
+
 /* ===== CUSTOM SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 8px;
@@ -79,6 +142,15 @@ input:focus-visible,
 textarea:focus-visible {
   outline: 2px solid rgb(var(--accent));
   outline-offset: 2px;
+}
+
+/* Better focus for mobile navigation */
+@media (max-width: 767px) {
+  button:focus-visible,
+  a:focus-visible {
+    outline: 3px solid rgb(var(--accent));
+    outline-offset: 3px;
+  }
 }
 
 /* ===== ANIMATIONS ===== */
@@ -156,3 +228,113 @@ textarea:focus-visible {
     background-position: -200% 0;
   }
 }
+
+/* ===== MOBILE-SPECIFIC IMPROVEMENTS ===== */
+
+/* Better spacing on mobile */
+@media (max-width: 639px) {
+  .mobile-spacing {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Improve touch scrolling */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.touch-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Prevent orphaned touch events */
+.no-tap-zoom {
+  touch-action: manipulation;
+}
+
+/* Better modal scrolling on mobile */
+.modal-scroll {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  max-height: 70vh;
+}
+
+/* Prevent image dragging on touch */
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+}
+
+/* CLS Protection - Reserve space for images to prevent layout shifts */
+img[src$=".jpg"],
+img[src$=".jpeg"],
+img[src$=".png"],
+img[src$=".webp"] {
+  aspect-ratio: attr(width) / attr(height);
+  min-height: 200px;
+}
+
+/* Better button states */
+@media (hover: none) {
+  .hover\:shadow-2xl:hover {
+    shadow: var(--shadow-lg);
+  }
+}
+
+/* CLS Protection for dynamic content */
+@keyframes placeholder-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.cls-placeholder {
+  animation: placeholder-pulse 1.5s ease-in-out infinite;
+  background: linear-gradient(90deg, 
+    rgb(var(--surface)) 25%, 
+    rgb(var(--border)) 50%, 
+    rgb(var(--surface)) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* Reserve space for modal to prevent CLS */
+.modal-container {
+  min-height: 400px;
+}
+
+/* Reserve space for iframes */
+iframe {
+  min-height: 300px;
+  background-color: rgb(var(--surface));
+}
+
+/* Prevent layout shift from lazy loaded images */
+.lazy-image-wrapper {
+  position: relative;
+  min-height: 200px;
+  background-color: rgb(var(--surface));
+  overflow: hidden;
+}
+
+.lazy-image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lazy-image-wrapper img.loaded {
+  opacity: 1;
+}
+

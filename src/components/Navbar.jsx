@@ -1,317 +1,279 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar({ dark, setDark, menuOpen, setMenuOpen, sections }) {
+  const menuRef = useRef(null);
+  const menuOverlayRef = useRef(null);
+
+  // Handle escape key
+  const handleKeyDown = useCallback((event) => {
+    if (event.key === "Escape") {
+      setMenuOpen(false);
+    }
+  }, [setMenuOpen]);
+
+  // Handle body scroll lock
+  useEffect(() => {
+    if (menuOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.height = "100%";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+    };
+  }, [menuOpen, handleKeyDown]);
+
+  // Close menu when clicking overlay
+  const handleOverlayClick = (e) => {
+    if (e.target === menuOverlayRef.current) {
+      setMenuOpen(false);
+    }
+  };
+
+  // Handle navigation click
+  const handleNavClick = () => {
+    setMenuOpen(false);
+  };
+
   return (
-    <header className="sticky top-0 z-50 bg-[rgb(var(--bg))] border-b border-[rgb(var(--border))] backdrop-blur-sm bg-opacity-95">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center">
-        {/* PROFESSIONAL LOGO */}
-        <motion.a
-          href="#home"
-          className="flex items-center group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+    <>
+      {/* Sticky Header */}
+      <header 
+        className="sticky top-0 z-50 bg-[rgb(var(--bg))] border-b border-[rgb(var(--border))] backdrop-blur-lg bg-opacity-95 supports-[backdrop-filter]:bg-[rgb(var(--bg))]/80"
+        style={{ 
+          paddingBottom: 'env(safe-area-inset-top, 0px)',
+          paddingTop: 'env(safe-area-inset-top, 0px)'
+        }}
+      >
+        <nav 
+          className="max-w-7xl mx-auto px-4 sm:px-6 h-[calc(60px+env(safe-area-inset-top,0px))] flex items-center"
+          style={{ minHeight: '60px' }}
         >
-          {/* Logo Symbol */}
-          <motion.div
-            className="w-10 h-10 mr-3 rounded-xl bg-gradient-to-br from-[rgb(var(--accent))] to-blue-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300"
-            whileHover={{ 
-              rotate: [0, -10, 10, 0],
-              transition: { duration: 0.5 }
-            }}
+          {/* Logo - Left */}
+          <motion.a
+            href="#home"
+            className="flex items-center flex-shrink-0"
+            whileTap={{ scale: 0.98 }}
+            aria-label="Go to home"
           >
-            {/* Modern "P" Symbol - UI/UX Design Inspired */}
-            <svg 
-              width="20" 
-              height="20" 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              className="text-white"
-            >
-              <path 
-                d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" 
-                fill="currentColor"
-                opacity="0.8"
-              />
-              <circle 
-                cx="12" 
-                cy="12" 
-                r="8" 
-                stroke="currentColor" 
-                strokeWidth="2" 
-                fill="none"
-                opacity="0.6"
-              />
-            </svg>
-          </motion.div>
-          
-          {/* Logo Text */}
-          <div className="flex flex-col">
-            <span className="font-bold text-xl leading-tight bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 bg-clip-text text-transparent group-hover:from-blue-600 group-hover:to-[rgb(var(--accent))] transition-all duration-300">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-[rgb(var(--accent))] to-blue-600 flex items-center justify-center flex-shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white sm:w-[18px] sm:h-[18px]">
+                <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor" opacity="0.8"/>
+              </svg>
+            </div>
+            <span className="font-bold text-base sm:text-lg ml-2 sm:ml-2.5 bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 bg-clip-text text-transparent whitespace-nowrap">
               Prakash
             </span>
-            <span className="text-xs text-[rgb(var(--muted))] -mt-1 font-medium tracking-wider uppercase">
-              UI/UX Designer
-            </span>
-          </div>
-        </motion.a>
+          </motion.a>
 
-        {/* RIGHT SIDE */}
-        <div className="ml-auto flex items-center">
-          {/* Desktop Menu */}
-          <ul className="hidden md:flex gap-8 text-sm font-medium mr-4">
+          {/* Desktop Menu - Hidden on mobile */}
+          <ul className="hidden lg:flex gap-6 xl:gap-8 text-sm font-medium ml-auto mr-4">
             {sections.map((item) => (
               <li key={item}>
                 <motion.a
                   href={`#${item.toLowerCase()}`}
-                  className="relative text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] transition-all duration-300 py-2"
-                  whileHover={{ y: -2 }}
+                  className="text-[rgb(var(--muted))] hover:text-[rgb(var(--text))] transition-colors duration-200 relative py-2"
+                  whileHover={{ y: -1 }}
                 >
                   {item}
-                  <motion.div
-                    className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600"
-                    whileHover={{ width: "100%" }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[rgb(var(--accent))] transition-all duration-300 hover:w-full" />
                 </motion.a>
               </li>
             ))}
           </ul>
 
-          {/* Professional Action Buttons */}
-          <div className="flex items-center gap-2">
-            {/* Dark Mode Toggle */}
-            <motion.button
-              onClick={() => setDark(!dark)}
-              className="relative w-12 h-6 rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--surface))] flex items-center transition-all duration-300 hover:border-[rgb(var(--accent))]"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Toggle dark mode"
-            >
-              <motion.div
-                className="absolute w-5 h-5 rounded-full bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 shadow-lg flex items-center justify-center"
-                animate={{ x: dark ? 26 : 2 }}
-                transition={{ type: "spring", stiffness: 500, damping: 30 }}
-              >
-                {dark ? (
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                  </svg>
-                ) : (
-                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                  </svg>
-                )}
-              </motion.div>
-            </motion.button>
+          {/* Desktop Dark Mode Toggle - Hidden on mobile */}
+          <motion.button
+            onClick={() => setDark(!dark)}
+            className="hidden lg:flex relative w-9 h-5 rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--surface))] items-center transition-all duration-200 mr-2 xl:mr-4"
+            whileTap={{ scale: 0.95 }}
+            aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            <motion.div
+              className="absolute w-4 h-4 rounded-full bg-[rgb(var(--accent))] shadow-sm"
+              animate={{ left: dark ? 19 : 2 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            />
+          </motion.button>
 
-            {/* Professional Hamburger Menu */}
-            <motion.button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden relative w-10 h-10 flex items-center justify-center group ml-2"
-              aria-label="Toggle menu"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <div className="relative w-6 h-5">
-                <motion.span
-                  className="absolute left-0 w-6 h-0.5 bg-[rgb(var(--text))] rounded-full"
-                  animate={{
-                    y: menuOpen ? 10 : 0,
-                    rotate: menuOpen ? 45 : 0,
-                    opacity: menuOpen ? 0 : 1
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.span
-                  className="absolute left-0 w-6 h-0.5 bg-[rgb(var(--text))] rounded-full top-2.5"
-                  animate={{
-                    opacity: menuOpen ? 0 : 1
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-                <motion.span
-                  className="absolute left-0 w-6 h-0.5 bg-[rgb(var(--text))] rounded-full"
-                  animate={{
-                    y: menuOpen ? -10 : 20,
-                    rotate: menuOpen ? -45 : 0,
-                    opacity: menuOpen ? 0 : 1
-                  }}
-                  transition={{ duration: 0.3 }}
-                />
-              </div>
-            </motion.button>
-          </div>
-        </div>
-      </nav>
+          {/* Hamburger Menu Button - Visible only on mobile */}
+          <motion.button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="relative w-9 h-9 flex items-center justify-center md:hidden ml-auto flex-shrink-0"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            whileTap={{ scale: 0.95 }}
+          >
+            {/* Hamburger Lines */}
+            <div className="relative w-6 h-4.5">
+              <motion.span
+                className="absolute left-0 w-6 h-0.5 bg-[rgb(var(--text))] rounded-full origin-center"
+                animate={{ 
+                  top: menuOpen ? "50%" : "0%",
+                  transform: menuOpen ? "translateY(-50%) rotate(45deg)" : "translateY(0) rotate(0)",
+                  opacity: menuOpen ? 1 : 1
+                }}
+                transition={{ duration: 0.2 }}
+              />
+              <motion.span
+                className="absolute left-0 w-6 h-0.5 bg-[rgb(var(--text))] rounded-full top-1/2 -translate-y-1/2"
+                animate={{ opacity: menuOpen ? 0 : 1 }}
+                transition={{ duration: 0.15 }}
+              />
+              <motion.span
+                className="absolute left-0 w-6 h-0.5 bg-[rgb(var(--text))] rounded-full bottom-0"
+                animate={{ 
+                  top: menuOpen ? "50%" : "100%",
+                  transform: menuOpen ? "translateY(-50%) rotate(-45deg)" : "translateY(0) rotate(0)",
+                  opacity: menuOpen ? 1 : 1
+                }}
+                transition={{ duration: 0.2 }}
+              />
+            </div>
+          </motion.button>
+        </nav>
+      </header>
 
-      {/* Modern Mobile Menu - Slide Out Panel */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {menuOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop Overlay */}
             <motion.div
+              ref={menuOverlayRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
-              onClick={() => setMenuOpen(false)}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 md:hidden"
+              onClick={handleOverlayClick}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile menu"
             />
-            
-            {/* Slide-out Menu Panel */}
-            <motion.div
+
+            {/* Slide-out Menu Panel - Right Side */}
+            <motion.aside
+              ref={menuRef}
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-[rgb(var(--bg))] shadow-2xl z-50 md:hidden border-l border-[rgb(var(--border))]"
+              transition={{ 
+                type: "spring", 
+                stiffness: 400, 
+                damping: 30,
+                mass: 0.8
+              }}
+              className="fixed top-0 right-0 h-full z-50 md:hidden flex flex-col"
+              style={{ 
+                width: 'min(85vw, 320px)',
+                maxWidth: '85vw',
+                paddingBottom: 'env(safe-area-inset-bottom, 20px)'
+              }}
             >
-              {/* Header with Close Button */}
-              <div className="flex items-center justify-between p-6 border-b border-[rgb(var(--border))]">
-                <motion.h2 
-                  className="text-xl font-bold bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 bg-clip-text text-transparent"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                >
-                  Navigation
-                </motion.h2>
-                
+              {/* Menu Header */}
+              <div 
+                className="flex items-center justify-between px-5 py-4 border-b border-[rgb(var(--border))] flex-shrink-0"
+                style={{ paddingTop: 'calc(16px + env(safe-area-inset-top, 0px))' }}
+              >
+                <span className="font-semibold text-base">Menu</span>
                 <motion.button
                   onClick={() => setMenuOpen(false)}
-                  className="w-10 h-10 rounded-full bg-[rgb(var(--surface))] border border-[rgb(var(--border))] flex items-center justify-center hover:bg-[rgb(var(--card))] transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, rotate: -90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  transition={{ delay: 0.2 }}
+                  className="w-10 h-10 rounded-full bg-[rgb(var(--surface))] border border-[rgb(var(--border))] flex items-center justify-center flex-shrink-0"
+                  whileTap={{ scale: 0.9 }}
+                  aria-label="Close menu"
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </motion.button>
               </div>
 
-              {/* Navigation Items */}
-              <div className="px-6 py-8">
-                <nav className="space-y-4">
+              {/* Navigation Links */}
+              <nav 
+                className="flex-1 overflow-y-auto px-4 py-4"
+                style={{ 
+                  paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 20px))',
+                  WebkitOverflowScrolling: 'touch'
+                }}
+              >
+                <ul className="space-y-1">
                   {sections.map((item, index) => (
-                    <motion.a
-                      key={item}
-                      href={`#${item.toLowerCase()}`}
-                      onClick={() => setMenuOpen(false)}
-                      className="group flex items-center p-4 rounded-2xl bg-[rgb(var(--surface))] border border-[rgb(var(--border))] hover:border-[rgb(var(--accent))] transition-all duration-300 relative overflow-hidden"
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 * index + 0.3 }}
-                      whileHover={{ scale: 1.02, y: -2 }}
-                    >
-                      {/* Hover Background Effect */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-[rgb(var(--accent))]/10 to-blue-600/10 rounded-2xl"
-                        initial={{ opacity: 0 }}
-                        whileHover={{ opacity: 1 }}
-                        transition={{ duration: 0.3 }}
-                      />
-                      
-                      {/* Icon for each section */}
-                      <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-[rgb(var(--accent))] to-blue-600 flex items-center justify-center mr-4 relative z-10">
-                        {item === "Home" && (
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                          </svg>
-                        )}
-                        {item === "About" && (
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                        )}
-                        {item === "Services" && (
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                          </svg>
-                        )}
-                        {item === "Projects" && (
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                          </svg>
-                        )}
-                        {item === "Contact" && (
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                          </svg>
-                        )}
-                      </div>
-                      
-                      <div className="flex-1 relative z-10">
-                        <h3 className="font-semibold text-[rgb(var(--text))] group-hover:text-[rgb(var(--accent))] transition-colors duration-300">
-                          {item}
-                        </h3>
-                        <p className="text-sm text-[rgb(var(--muted))] group-hover:text-[rgb(var(--text))] transition-colors duration-300">
-                          {item === "Home" && "Welcome to my portfolio"}
-                          {item === "About" && "Learn more about me"}
-                          {item === "Services" && "UI/UX design services"}
-                          {item === "Projects" && "View my work"}
-                          {item === "Contact" && "Get in touch"}
-                        </p>
-                      </div>
-                      
-                      <motion.div
-                        className="text-[rgb(var(--muted))] group-hover:text-[rgb(var(--accent))] transition-colors duration-300"
-                        whileHover={{ x: 5 }}
+                    <li key={item}>
+                      <motion.a
+                        href={`#${item.toLowerCase()}`}
+                        onClick={handleNavClick}
+                        className="flex items-center px-4 py-4 min-h-[48px] rounded-lg text-[rgb(var(--text))] hover:bg-[rgb(var(--surface))] active:bg-[rgb(var(--surface))] transition-colors duration-150"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.05 + index * 0.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        role="menuitem"
                       >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                      </motion.div>
-                    </motion.a>
+                        <span className="font-medium text-[17px] leading-normal">{item}</span>
+                      </motion.a>
+                    </li>
                   ))}
-                </nav>
+                </ul>
 
-                {/* Quick Actions Section */}
-                <motion.div 
-                  className="mt-8 pt-6 border-t border-[rgb(var(--border))]"
-                  initial={{ opacity: 0, y: 20 }}
+                {/* Divider */}
+                <div className="h-px bg-[rgb(var(--border))] my-4" />
+
+                {/* CTA Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.7 }}
+                  transition={{ delay: 0.25 }}
                 >
-                  <h4 className="text-sm font-semibold text-[rgb(var(--muted))] uppercase tracking-wider mb-4">
-                    Quick Actions
-                  </h4>
-                  <div className="space-y-3">
-                    <motion.a
-                      href="mailto:praksunuwar@gmail.com"
-                      className="flex items-center p-3 rounded-xl bg-[rgb(var(--surface))] border border-[rgb(var(--border))] hover:border-[rgb(var(--accent))] transition-all duration-300"
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-center mr-3">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                      </div>
-                      <span className="text-sm font-medium text-[rgb(var(--text))]">Email Me</span>
-                    </motion.a>
-                    
-                    <motion.a
-                      href="https://www.linkedin.com/in/prakash-sunuwar-020556234/"
-                      target="_blank"
-                      className="flex items-center p-3 rounded-xl bg-[rgb(var(--surface))] border border-[rgb(var(--border))] hover:border-[rgb(var(--accent))] transition-all duration-300"
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 flex items-center justify-center mr-3">
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                      </div>
-                      <span className="text-sm font-medium text-[rgb(var(--text))]">LinkedIn</span>
-                    </motion.a>
-                  </div>
+                  <motion.a
+                    href="mailto:praksunuwar@gmail.com"
+                    onClick={handleNavClick}
+                    className="flex items-center justify-center gap-2 w-full py-4 min-h-[48px] rounded-xl bg-[rgb(var(--accent))] text-white font-semibold text-[17px] leading-normal"
+                    whileTap={{ scale: 0.98 }}
+                    role="button"
+                  >
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Get in Touch
+                  </motion.a>
                 </motion.div>
+              </nav>
+
+              {/* Menu Footer */}
+              <div 
+                className="px-5 py-4 border-t border-[rgb(var(--border))] flex-shrink-0"
+                style={{ paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 20px))' }}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-[rgb(var(--muted))]">Dark Mode</span>
+                  <motion.button
+                    onClick={() => setDark(!dark)}
+                    className="relative w-11 h-6 rounded-full border border-[rgb(var(--border))] bg-[rgb(var(--surface))] flex items-center transition-all duration-200"
+                    whileTap={{ scale: 0.95 }}
+                    aria-label={dark ? "Enable light mode" : "Enable dark mode"}
+                  >
+                    <motion.div
+                      className="absolute w-5 h-5 rounded-full bg-[rgb(var(--accent))] shadow-sm"
+                      animate={{ left: dark ? 24 : 2 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  </motion.button>
+                </div>
               </div>
-            </motion.div>
+            </motion.aside>
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
+
